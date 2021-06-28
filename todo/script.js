@@ -1,12 +1,8 @@
 var inputBtn = document.getElementById("inputBtn");
 inputBtn.addEventListener("click", inputBtnClick);
-
-// get text
-
-todoText = text.value;
-
+var newToDo;
 var count = 1;
-var list = document.getElementById("todoList");
+const list = document.getElementById("todoList");
 
 /*
 function enterKey() {
@@ -15,23 +11,36 @@ function enterKey() {
     }
 }*/
 
-
-function inputBtnClick() {
-    var newToDo = document.createElement("li"); 
+function createToDo() {
+    newToDo = document.createElement("div");
     var text = document.getElementById("text").value; // get text
     document.getElementById("text").value='';
     newToDo.innerHTML = text;
-    newToDo.setAttribute('id', count++);
+    newToDo.setAttribute('id', count);
     newToDo.setAttribute('class', 'toDo');
-    list.appendChild(newToDo);
+    return newToDo;
 }
 
+function createDelBtn() {
+    var newToDoDelBtn = document.createElement('input');
+    newToDoDelBtn.setAttribute('type', 'button');
+    newToDoDelBtn.setAttribute('value', '완료');
+    newToDoDelBtn.setAttribute('id', count++);
+    newToDoDelBtn.addEventListener("click", function() {
+        var num = newToDoDelBtn.id;
+        deleteBtnClick(num);
+    });
+    return newToDoDelBtn;
+}
 
-var deleteBtn = document.getElementById("deleteBtn");
-deleteBtn.addEventListener("click", deleteBtnClick);
-function deleteBtnClick() {
-    var toDo = document.getElementById(count-1);
-    console.log(count);
+function inputBtnClick() {
+    var toDo = createToDo();
+    toDo.appendChild(createDelBtn());
+    list.appendChild(toDo);
+}
+
+function deleteBtnClick(num) {
+    var toDo = document.getElementById(num);
+    console.log(num);
     list.removeChild(toDo);
-    count--;
 }
