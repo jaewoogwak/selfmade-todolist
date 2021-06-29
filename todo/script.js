@@ -37,7 +37,7 @@ function createToDo() {
 function createDelBtn() {
     var newToDoDelBtn = document.createElement('input');
     newToDoDelBtn.setAttribute('type', 'button');
-    newToDoDelBtn.setAttribute('value', '완료');
+    newToDoDelBtn.setAttribute('value', '✔');
     newToDoDelBtn.setAttribute('id', count++);
     newToDoDelBtn.addEventListener("click", function () {
         var num = newToDoDelBtn.id;
