@@ -4,7 +4,7 @@ var newToDo;
 var count = 1;
 const list = document.getElementById("todoList");
 var toDos = [];
-var savedDataCount = 0;
+var savedDataCount = 1;
 const killBtn = document.getElementById("killBtn");
 killBtn.addEventListener("click", removeCheck)
 
@@ -32,7 +32,7 @@ function createToDo() {
     var text = document.getElementById("text").value; // get text
     document.getElementById("text").value = '';
     newToDo.innerHTML = text + ' ';
-    newToDo.setAttribute('id', count++);
+    newToDo.setAttribute('id', savedDataCount++);
     newToDo.setAttribute('class', 'toDo');
     return newToDo;
 }
@@ -58,8 +58,8 @@ function inputBtnClick() {
     toDo.appendChild(createDelBtn(toDo.id));
     list.appendChild(toDo);
     toDos.push(toDo);
-    savedDataCount++;
     localStorage.setItem('sdCount', savedDataCount);
+    console.log('sdCount : ' ,savedDataCount);
     console.log("새로 할 일 : " + toDo.innerText + "(이)가 추가되었습니다.")
     saveData(toDo);
 }
@@ -76,7 +76,8 @@ function deleteBtnClick(num) {
 function saveData(data) {
     console.log("saveData 실행!")
     // save in localstorage
-    localStorage.setItem(count - 1, data.innerText);
+    localStorage.setItem(data.id, data.innerText);
+    localStorage.setItem('sdCount', savedDataCount-1);
 }
 
 function loadData() {
@@ -98,7 +99,8 @@ function loadData() {
             console.log(i + '번째 item이 존재하지 않습니다!');
         }
     }
-    //savedDataCount = localStorage.length-1;
+    savedDataCount = localStorage.getItem('sdCount')
+    savedDataCount++;
     //localStorage.setItem('sdCount', savedDataCount);
 }
 
@@ -125,3 +127,15 @@ init();
 // 입력 버튼으로 to do를 등록할 땐 정상 작동,
 // enter key를 눌러서 to do를 등록할 때 오류 발생.
 // 똑같은 함순데 왜? 로직 문제일수도?
+
+// # 3 새로고침 후 todo 등록하면 sdCount 값 올라가지 않는 현상
+// 기존에는 localStorage에 key : count-1, value : data.innerText로 등록했음
+// 그래서 todo의 id값과 count-1의 값이 일치하지 않는 경우가 있었음.
+// 또한 key와 value가 일치하지 않는 경우도 있었음.
+// localStorage에 key : data.id, value : data.innerText를 등록함으로써
+// key, value를 같이 묶어줌.
+// 또한 새로고침 후 기존 data를 load할 때, sdCount가 localStorage에 저장된 값을 그대로 불러와서
+// todo를 등록해도 sdCount가 1중첩되는 현상이 있었음. 그래서 localStorage에서 값을 불러와도
+// 값 하나가 빠지게 되는 현상이 발생.
+// load함수를 호출할때 sdCount를 1증가 시켜주는 방법으로 처리.
+ 

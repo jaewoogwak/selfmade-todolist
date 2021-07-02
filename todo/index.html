@@ -12,12 +12,12 @@
     </div>
     <h1 id = "title"> What will you to do? </h1> 
     <div id = "mid">
-        <form>
+        <form style = "text-align:center;">
             <input id = "text" type = "text" onkeydown= "{ 
                 if (window.event.keyCode == 13) { 
                 console.log('press enter');
                 inputBtnClick();     
-            }}" placeholder="put in your TO DO" style = "text-align: center;">
+            }}" placeholder="put in your TO DO" autofocus>
             <input id = "killBtn" type = "button" value = "🔄">
         </form>
         <div style = "padding-top: 50px;">
@@ -32,6 +32,7 @@
     </div>
 
     <script src = "./script.js"></script>
-    <!--<script src = "./date.js"></script> -->
+    <script src = "./date.js"></script>
+    <!--<script src ="./background.js"></script>-->
 </body>
 </html>

@@ -20,5 +20,5 @@ setInterval(function () {
     var showTime = document.getElementById("date");
     showTime.innerText = hours + ":" + minutes + ":" + seconds;
 
-}, 1000);
+}, 1);
 
