@@ -1,16 +1,16 @@
-var inputBtn = document.getElementById("inputBtn");
+const inputBtn = document.getElementById("inputBtn");
 inputBtn.addEventListener("click", inputBtnClick);
-var newToDo;
-var count = 1;
-const list = document.getElementById("todoList");
-var toDos = [];
-var savedDataCount = 1;
 const killBtn = document.getElementById("killBtn");
 killBtn.addEventListener("click", removeCheck)
+const list = document.getElementById("todoList");
+const toDos = [];
+
+var newToDo;
+var count = 1;
+var savedDataCount = 1;
 
 function removeCheck() {
     if (confirm("Do you wanna RESET TO DO LIST?") == true) {
-        console.log("데이터를 초기화합니다.");
         localStorage.clear();
         localStorage.setItem('sdCount', 0);
         window.location.reload();
@@ -19,17 +19,9 @@ function removeCheck() {
     }
 }
 
-/*
-function enterKey() {
-    if(window.event.keyCode === 13) {
-        console.log("press enterKey!");
-    }
-}*/
-
 function createToDo() {
-    console.log("createToDo 실행!")
     newToDo = document.createElement("div");
-    var text = document.getElementById("text").value; // get text
+    var text = document.getElementById("text").value;
     document.getElementById("text").value = '';
     newToDo.innerHTML = text + ' ';
     newToDo.setAttribute('id', savedDataCount++);
@@ -38,44 +30,60 @@ function createToDo() {
 }
 
 function createDelBtn(todo_id) {
-    console.log("createDelBtn 실행!")
     var newToDoDelBtn = document.createElement('input');
     newToDoDelBtn.setAttribute('type', 'button');
-    newToDoDelBtn.setAttribute('value', '✔');
+    newToDoDelBtn.setAttribute('value', '❌');
     newToDoDelBtn.setAttribute('id', todo_id);
     newToDoDelBtn.setAttribute('class', 'delBtn');
     newToDoDelBtn.addEventListener("click", function () {
         var num = newToDoDelBtn.id;
-        deleteBtnClick(num);
+        delBtnClick(num);
     });
     return newToDoDelBtn;
 }
 
+function delBtnClick(num) {
+    var toDo = document.getElementById(num);
+    list.removeChild(toDo);
+    localStorage.removeItem(num);
+}
+
+function createDoneBtn(todo_id) {
+    var newToDoDoneBtn = document.createElement('input');
+    newToDoDoneBtn.setAttribute('type', 'button');
+    newToDoDoneBtn.setAttribute('value', '✔');
+    newToDoDoneBtn.setAttribute('id', todo_id);
+    newToDoDoneBtn.setAttribute('class', 'DoneBtn');
+    newToDoDoneBtn.addEventListener("click", function () {
+        var num = newToDoDoneBtn.id;
+        doneBtnClick(num);
+    });
+    return newToDoDoneBtn;
+}
+
+function doneBtnClick(num) {
+    var toDo = document.getElementById(num);
+    toDo.setAttribute('style', 'text-decoration:line-through');
+    var changeDoneToDel = document.getElementsByClassName("toDo");
+    console.log(changeDoneToDel.removeChild(num));
+
+    changeDoneToDel.removeChild(num);
+    changeDoneToDel.appendChild(createDelBtn(num));
+    //list.removeChild(toDo);
+    //localStorage.removeItem(num);
+}
+
+
 function inputBtnClick() {
-    console.log("inputBtnClick 실행!")
     var toDo = createToDo();
-    //console.log(toDo.id);
     toDo.appendChild(createDelBtn(toDo.id));
     list.appendChild(toDo);
     toDos.push(toDo);
     localStorage.setItem('sdCount', savedDataCount);
-    console.log('sdCount : ' ,savedDataCount);
-    console.log("새로 할 일 : " + toDo.innerText + "(이)가 추가되었습니다.")
     saveData(toDo);
 }
 
-function deleteBtnClick(num) {
-    var toDo = document.getElementById(num);
-    console.log(toDo);
-    list.removeChild(toDo);
-    console.log("완료한 일 : " + toDo.innerText + "(이)가 삭제되었습니다.")
-    localStorage.removeItem(num);
-
-}
-
 function saveData(data) {
-    console.log("saveData 실행!")
-    // save in localstorage
     localStorage.setItem(data.id, data.innerText);
     localStorage.setItem('sdCount', savedDataCount-1);
 }
@@ -92,25 +100,18 @@ function loadData() {
             var loadToDo = temp;
             loadToDo.appendChild(createDelBtn(loadToDo.id));
             list.appendChild(loadToDo);
-            console.log(loadToDo.id + " 로딩!");
             toDos.push(loadToDo);
-
-        } else {
-            console.log(i + '번째 item이 존재하지 않습니다!');
         }
-    }
     savedDataCount = localStorage.getItem('sdCount')
     savedDataCount++;
-    //localStorage.setItem('sdCount', savedDataCount);
+    }
 }
 
 
 function init() {
     if (localStorage.length > 1) {
-        console.log("데이터를 불러옵니다.")
         loadData();
     } else {
-        console.log("기존 데이터가 존재하지 않습니다.")
     }
 }
 
@@ -138,4 +139,8 @@ init();
 // todo를 등록해도 sdCount가 1중첩되는 현상이 있었음. 그래서 localStorage에서 값을 불러와도
 // 값 하나가 빠지게 되는 현상이 발생.
 // load함수를 호출할때 sdCount를 1증가 시켜주는 방법으로 처리.
- 
+
+// # 4
+// 완료 버튼을 누르면 취소선을 긋고
+// 한 번 더 누르면 삭제기능 만들기
+// 취소선만 그어진 상태에서 새로고침 하면 reset 되어버림.
