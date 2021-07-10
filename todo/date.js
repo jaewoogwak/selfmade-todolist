@@ -4,6 +4,10 @@ setInterval(function () {
     var minutes = adjustTime(minutes);
     var seconds = adjustTime(seconds);
 
+    var YY = date.getFullYear();
+    var MM = date.getMonth() + 1;
+    var DD = date.getDate();
+
     function adjustTime(time) {
         if (time == hours) {
             if (date.getHours() < 10) { return "0" + date.getHours(); }
@@ -17,8 +21,12 @@ setInterval(function () {
         }
     }
 
-    var showTime = document.getElementById("date");
+    var showTime = document.getElementById("time");
     showTime.innerText = hours + ":" + minutes + ":" + seconds;
 
+    var showDate = document.getElementById("date");
+    showDate.innerText = YY + "-" + MM + "-" + DD;
 }, 1);
+
+
 

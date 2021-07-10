@@ -42,11 +42,17 @@ body {
     font-size: 20px;
 }
 
-#date {
-    padding-top:100px;
-    padding-bottom:50px;
+#time {
+    padding-top:120px;
+    padding-bottom:40px;
     text-align: center;
     font-size: 100px;
+}
+
+#date {
+    text-align: center;
+    font-size: 25px;
+    padding-bottom: 20px;
 }
 
 @keyframes fadeIn {

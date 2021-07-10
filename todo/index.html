@@ -7,16 +7,17 @@
     <title>투두 리스트</title>
 </head>
 <body>
-    <link rel ="stylesheet" href = "./style.css">
-    <div id = "date">
+    <link rel ="stylesheet" href = "./style.css">  
+    <div id = "time">
     </div>
+    <div id = "date"></div>
     <h1 id = "title"> What will you to do? </h1> 
     <div id = "mid">
         <form style = "text-align:center;">
             <input id = "text" type = "text" onkeydown= "{ 
                 if (window.event.keyCode == 13) { 
                 console.log('press enter');
-                inputBtnClick();     
+                toDoInput();     
             }}" placeholder="put in your TO DO" autofocus>
             <input id = "killBtn" type = "button" value = "🔄">
         </form>

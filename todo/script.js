@@ -1,5 +1,5 @@
 const inputBtn = document.getElementById("inputBtn");
-inputBtn.addEventListener("click", inputBtnClick);
+inputBtn.addEventListener("click", toDoInput);
 const killBtn = document.getElementById("killBtn");
 killBtn.addEventListener("click", removeCheck)
 const list = document.getElementById("todoList");
@@ -32,7 +32,7 @@ function createToDo() {
 function createDelBtn(todo_id) {
     var newToDoDelBtn = document.createElement('input');
     newToDoDelBtn.setAttribute('type', 'button');
-    newToDoDelBtn.setAttribute('value', '❌');
+    newToDoDelBtn.setAttribute('value', '✔');
     newToDoDelBtn.setAttribute('id', todo_id);
     newToDoDelBtn.setAttribute('class', 'delBtn');
     newToDoDelBtn.addEventListener("click", function () {
@@ -48,6 +48,7 @@ function delBtnClick(num) {
     localStorage.removeItem(num);
 }
 
+/*
 function createDoneBtn(todo_id) {
     var newToDoDoneBtn = document.createElement('input');
     newToDoDoneBtn.setAttribute('type', 'button');
@@ -71,10 +72,9 @@ function doneBtnClick(num) {
     changeDoneToDel.appendChild(createDelBtn(num));
     //list.removeChild(toDo);
     //localStorage.removeItem(num);
-}
+}*/
 
-
-function inputBtnClick() {
+function toDoInput() {
     var toDo = createToDo();
     toDo.appendChild(createDelBtn(toDo.id));
     list.appendChild(toDo);
